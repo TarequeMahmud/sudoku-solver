@@ -17,7 +17,18 @@ class SudokuSolver {
     return true;
   }
 
-  checkColPlacement(puzzleString, row, column, value) {}
+  checkColPlacement(puzzleString, column, value) {
+    let startIndex = 0;
+    let slicedStrings = [];
+    for (let i = 9; i <= puzzleString.length; i += 9) {
+      slicedStrings.push(puzzleString.slice(startIndex, i));
+      startIndex = i;
+    }
+    let columnString = "";
+    slicedStrings.map((string) => (columnString += string[column]));
+    if (columnString.includes(value)) return false;
+    return true;
+  }
 
   checkRegionPlacement(puzzleString, row, column, value) {}
 
