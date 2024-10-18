@@ -45,4 +45,19 @@ suite("Unit Tests", () => {
       done();
     });
   });
+
+  suite("Unit Test for column placement checking logic", () => {
+    test("Logic handles a valid column placement", (done) => {
+      const puzzleString =
+        "1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.";
+      assert.equal(solver.checkColPlacement(puzzleString, 7, 1), true);
+      done();
+    });
+    test("Logic handles an invalid column placement", (done) => {
+      const puzzleString =
+        "1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.";
+      assert.equal(solver.checkColPlacement(puzzleString, 0, 1), false);
+      done();
+    });
+  });
 });
