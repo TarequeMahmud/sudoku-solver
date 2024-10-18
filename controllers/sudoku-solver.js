@@ -9,7 +9,13 @@ class SudokuSolver {
     return result;
   }
 
-  checkRowPlacement(puzzleString, row, column, value) {}
+  checkRowPlacement(puzzleString, row, value) {
+    let startIndex = row * 9;
+    let endIndex = startIndex + 9;
+    let rowString = puzzleString.slice(startIndex, endIndex);
+    if (rowString.includes(value)) return false;
+    return true;
+  }
 
   checkColPlacement(puzzleString, row, column, value) {}
 
