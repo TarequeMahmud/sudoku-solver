@@ -30,7 +30,17 @@ class SudokuSolver {
     return true;
   }
 
-  checkRegionPlacement(puzzleString, row, column, value) {}
+  checkRegionPlacement(puzzleString, row, column, value) {
+    let startRow = Math.floor(row / 3) * 3;
+    let startColumn = Math.floor(column / 3) * 3;
+    for (let row = startRow; row < startRow + 3; row++) {
+      for (let col = startColumn; col < startColumn + 3; col++) {
+        const index = row * 9 + col;
+        if (puzzleString[index] === value) return false;
+      }
+    }
+    return true;
+  }
 
   solve(puzzleString) {}
 }
