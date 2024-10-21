@@ -2,10 +2,12 @@ const chai = require("chai");
 const assert = chai.assert;
 
 const Solver = require("../controllers/sudoku-solver.js");
+const { puzzlesAndSolutions } = require("../controllers/puzzle-strings.js");
 let solver = new Solver();
 const puzzleString1 =
   "1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37.";
-
+const puzzleString3 =
+  "1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8.-1..16....926914.37.";
 suite("Unit Tests", () => {
   suite("Unit Test for puzzle string validator logic", () => {
     test("Logic handles a valid puzzle string of 81 characters", (done) => {
@@ -21,11 +23,8 @@ suite("Unit Tests", () => {
       done();
     });
     test("Logic handles a puzzle string with invalid characters (not 1-9 or .)", (done) => {
-      const puzzleString2 =
-        "1.5..2.84..63.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8.-1..16....926914.37.";
-
       assert.equal(
-        solver.validate(puzzleString2).error,
+        solver.validate(puzzleString3).error,
         "Invalid characters in puzzle"
       );
       done();
@@ -65,6 +64,35 @@ suite("Unit Tests", () => {
         solver.checkRegionPlacement(puzzleString1, 2, 2, "5"),
         false
       );
+      done();
+    });
+  });
+
+  suite("Unit Test for puzzle solving logic", () => {
+    test("Valid puzzle strings pass the solver", (done) => {
+      assert.isString(
+        solver.solve(puzzleString1),
+        "return should be an string"
+      );
+      done();
+    });
+    test("Invalid puzzle strings fail the solver", (done) => {
+      assert.isObject(
+        solver.solve(puzzleString3),
+        "return should be an object"
+      );
+      assert.property(
+        solver.solve(puzzleString3),
+        "error",
+        "response object should contain error property"
+      );
+      done();
+    });
+
+    test("Solver returns the expected solution for an incomplete puzzle", (done) => {
+      puzzlesAndSolutions.forEach((element) => {
+        assert.equal(solver.solve(element[0]), element[1]);
+      });
       done();
     });
   });
