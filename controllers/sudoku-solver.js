@@ -42,7 +42,44 @@ class SudokuSolver {
     return true;
   }
 
-  solve(puzzleString) {}
+  solve(puzzleString) {
+    const validationResult = this.validate(puzzleString);
+    if (validationResult !== true) return validationResult;
+    const sudokuArray = puzzleString.split("");
+
+    const solveHelper = (array) => {
+      for (let index = 0; index < array.length; index++) {
+        if (array[index] === ".") {
+          let row = Math.floor(index / 9);
+          let col = index % 9;
+          for (let i = 1; i <= 9; i++) {
+            let value = i.toString();
+            if (
+              this.checkRowPlacement(array.join(""), row, value) === true &&
+              this.checkColPlacement(array.join(""), col, value) === true &&
+              this.checkRegionPlacement(array.join(""), row, col, value) ===
+                true
+            ) {
+              array[index] = value;
+              if (solveHelper(array)) {
+                return true;
+              }
+              array[index] = ".";
+            }
+          }
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const solved = solveHelper(sudokuArray);
+
+    if (solved) {
+      return sudokuArray.join("");
+    }
+    return { error: "Puzzle cannot be solved" };
+  }
 }
 
 module.exports = SudokuSolver;
