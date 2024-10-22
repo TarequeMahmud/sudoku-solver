@@ -42,6 +42,12 @@ class SudokuSolver {
     return true;
   }
 
+  checkPointPlacement(puzzleString, row, col, value) {
+    const index = row * 9 + col;
+    if (puzzleString[index] === value) return true;
+    return false;
+  }
+
   solve(puzzleString) {
     const validationResult = this.validate(puzzleString);
     if (validationResult !== true) return validationResult;
